@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_event_item_title"
+        android:textAlignment="center"
+        android:padding="4dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimary"
+        tools:text="Title Name!!"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_event_item_date"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-condensed"
+        android:padding="4dp"
+        android:textSize="16sp"
+        android:textColor="@color/darkPurple"
+        tools:text="Event Date!"/>
+
+</LinearLayout>
