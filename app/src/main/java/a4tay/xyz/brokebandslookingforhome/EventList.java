@@ -29,6 +29,7 @@ public class EventList extends Fragment implements LoaderManager.LoaderCallbacks
     RecyclerView eventRecyclerView;
     private String url = "http://192.168.1.98:4567/eventsByID/1";
     //private String url = "http://dev.4tay.xyz:4567/eventsByID/1";
+    //added comment for github
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
