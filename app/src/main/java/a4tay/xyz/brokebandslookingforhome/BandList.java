@@ -26,7 +26,7 @@ import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.BandLoader;
 public class BandList extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Band>> {
     private final static String LOG_TAG = BandList.class.getSimpleName();
 
-    private String url = "http://192.168.1.98:4567/bands";
+    private String url = "http://dev.4tay.xyz:4567/bands";
     //private String url = "http://dev.4tay.xyz:4567/bands";
     private ArrayList<Band> bandList;
     private RecyclerView bandRecyclerView;

@@ -25,7 +25,7 @@ public class BandLoader extends AsyncTaskLoader<ArrayList<Band>> {
     }
     @Override
     public ArrayList<Band> loadInBackground() {
-        Log.d(LOG_TAG,"Loading event...");
+        Log.d(LOG_TAG,"Loading bands......");
         String response = QueryUtils.getJSONFromUrl(url);
         return QueryUtils.getBandList(response);
     }

@@ -1,7 +1,6 @@
 package a4tay.xyz.brokebandslookingforhome;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,13 +11,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
 
-public class TabActivity extends AppCompatActivity /*implements LoaderManager.LoaderCallbacks<String>*/{
+public class SettingsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -34,7 +31,7 @@ public class TabActivity extends AppCompatActivity /*implements LoaderManager.Lo
         final android.support.v7.app.ActionBar aBar = getSupportActionBar();
         aBar.setDisplayShowCustomEnabled(true);
         aBar.setDisplayShowTitleEnabled(false);
-        aBar.setDisplayHomeAsUpEnabled(false);
+        aBar.setDisplayHomeAsUpEnabled(true);
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -48,9 +45,12 @@ public class TabActivity extends AppCompatActivity /*implements LoaderManager.Lo
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new EventList(), "Events");
-        adapter.addFragment(new AddBand(), "Add Band");
-        adapter.addFragment(new BandList(), "Bands");
+        if(loggedIn) {
+            adapter.addFragment(new UserFrag(), "User Info");
+        } else {
+            adapter.addFragment(new LoginFrag(), "Login");
+            adapter.addFragment(new CreateUserFrag(), "New User");
+        }
         viewPager.setAdapter(adapter);
     }
 
@@ -106,5 +106,4 @@ public class TabActivity extends AppCompatActivity /*implements LoaderManager.Lo
 
         return super.onOptionsItemSelected(item);
     }
-
 }

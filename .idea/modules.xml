@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BrokeBandsLookingForHome.iml" filepath="$PROJECT_DIR$/BrokeBandsLookingForHome.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bblfh-android.iml" filepath="$PROJECT_DIR$/bblfh-android.iml" />
     </modules>
   </component>
 </project>

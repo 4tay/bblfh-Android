@@ -7,14 +7,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by johnkonderla on 3/12/17.
@@ -40,6 +47,7 @@ public class QueryUtils {
         return jsonResponse;
 
     }
+
 
     private static URL createUrl(String strUrl) {
         URL url = null;
@@ -113,15 +121,15 @@ public class QueryUtils {
             JSONArray allEvents = fullOb.optJSONArray("tourDates");
             for(int i = 0; i < allEvents.length(); i++) {
                 JSONObject singleEvent = allEvents.optJSONObject(i);
-                int tdID = singleEvent.optInt("tdID");
+                int tdID = singleEvent.optInt("showID");
                 int tourID = singleEvent.optInt("tourID");
-                int tdType = singleEvent.optInt("tdType");
-                String tdName = singleEvent.optString("tdName");
-                String tdAddress = singleEvent.optString("tdAddress");
-                float tdLat = singleEvent.optLong("tdLat");
-                float tdLng = singleEvent.optLong("tdLng");
-                int tdHomeConfirmed = singleEvent.getInt("tdHomeConfirmed");
-                String tdDate = singleEvent.getString("tdDate");
+                int tdType = singleEvent.optInt("showType");
+                String tdName = singleEvent.optString("showName");
+                String tdAddress = singleEvent.optString("showAddress");
+                float tdLat = singleEvent.optLong("showLat");
+                float tdLng = singleEvent.optLong("showLng");
+                int tdHomeConfirmed = singleEvent.getInt("homeConfirmed");
+                String tdDate = singleEvent.getString("showDate");
                 Event newEvent = new Event(tdName,tdDate,new String[] {"some band...."});
 
                 eventList.add(newEvent);
@@ -152,4 +160,89 @@ public class QueryUtils {
         }
         return bandList;
     }
-}
+    public static String getLogin(String serverResponse) {
+        try {
+            JSONObject user = new JSONObject(serverResponse);
+
+            return user.toString();
+        } catch (JSONException e) {
+            Log.e(LOG_TAG,"Errorr....", e);
+        }
+
+        return"";
+    }
+
+    public static String newURL(JSONObject params, String stringURL) {
+        try {
+
+            URL url = new URL(stringURL); // here is your URL path
+            Log.d("params", params.toString());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(10000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(params));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(
+                        conn.getInputStream()));
+
+                StringBuffer stringBuffer = new StringBuffer("");
+                String line = "";
+
+                if ((line = in.readLine()) != null) {
+                    stringBuffer.append(line);
+                }
+
+                in.close();
+                return stringBuffer.toString();
+
+            } else {
+                Log.e(LOG_TAG,String.valueOf(responseCode));
+                return "";
+            }
+        } catch (Exception e) {
+            Log.e(LOG_TAG,"Exception",e);
+            return "";
+        }
+
+    }
+        private static String getPostDataString(JSONObject params) throws Exception {
+
+            StringBuilder result = new StringBuilder();
+            boolean first = true;
+
+            Iterator<String> itr = params.keys();
+
+            while(itr.hasNext()){
+
+                String key= itr.next();
+                Object value = params.get(key);
+
+                if (first)
+                    first = false;
+                else
+                    result.append("&");
+
+                result.append(URLEncoder.encode(key, "UTF-8"));
+                result.append("=");
+                result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+
+            }
+            return result.toString();
+        }
+    }

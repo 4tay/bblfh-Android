@@ -1,6 +1,7 @@
 package a4tay.xyz.brokebandslookingforhome;
 
 
+import android.content.SharedPreferences;
 import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,23 +18,48 @@ import java.util.ArrayList;
 import a4tay.xyz.brokebandslookingforhome.Util.Event;
 import a4tay.xyz.brokebandslookingforhome.Util.EventRecyclerAdapter;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.EventLoader;
+import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginStatus;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by johnkonderla on 3/12/17.
  */
 
-public class EventList extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Event>> {
+public class EventList extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Event>>{
 
     private final static String LOG_TAG = EventList.class.getSimpleName();
     private ArrayList<Event> eventList;
     RecyclerView eventRecyclerView;
-    private String url = "http://192.168.1.98:4567/eventsByID/1";
-    //private String url = "http://dev.4tay.xyz:4567/eventsByID/1";
+    private String url = "http://dev.4tay.xyz:4567/eventsByID/1";
+
+    private static final String MY_PREFS = "harbor-preferences";
+    private static final String NAME_KEY = "nameKey";
+    private static final String PASS_KEY = "passKey";
+    private String submittedEM;
+    private String submittedPW1;
+
+    public static boolean loggedIn = false;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(!loggedIn) {
+            SharedPreferences prefs = getContext().getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+
+            submittedEM = prefs.getString(NAME_KEY, "");//defining an empty string as the default
+            submittedPW1 = prefs.getString(PASS_KEY, ""); //defining an empty string as the default
+
+            String loginUrl = "http://dev.4tay.xyz:4567/fanLogin/";
+
+            loginUrl = loginUrl + submittedEM + "/" + submittedPW1;
+
+            Log.d(LOG_TAG,loginUrl);
+            new LoginStatus(getActivity()).execute(new String[]{loginUrl});
+        }
+
+
         final View rootView = inflater.inflate(R.layout.event_list_activity, container, false);
         eventRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_event_list);
         getLoaderManager().initLoader(1,null,this).forceLoad();
