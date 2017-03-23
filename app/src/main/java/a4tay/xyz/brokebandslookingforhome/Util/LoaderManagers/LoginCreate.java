@@ -2,6 +2,7 @@ package a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import a4tay.xyz.brokebandslookingforhome.TabActivity;
 import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
 
 import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
@@ -61,9 +63,12 @@ public class LoginCreate extends AsyncTask<String, Object, String> {
         super.onPostExecute(response);
 
         String responseOutcome = "";
-        if(response.length() > 10) {
+        if(response.equals("Success!")) {
             responseOutcome = "Login successful!!!";
             loggedIn = true;
+            Intent intent = new Intent();
+            intent.setClass(myActivity.getApplicationContext(), TabActivity.class);
+            myActivity.startActivity(intent);
         } else {
             responseOutcome = "Login unsuccessful...";
             loggedIn = false;

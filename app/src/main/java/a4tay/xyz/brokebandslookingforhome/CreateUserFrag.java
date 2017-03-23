@@ -34,8 +34,10 @@ public class CreateUserFrag extends Fragment {
     private JSONObject userInfo;
     private String url = "http://dev.4tay.xyz:4567/addFan?";
     private static final String MY_PREFS = "harbor-preferences";
+    private static final String USER_KEY = "userKey";
     private static final String NAME_KEY = "nameKey";
     private static final String PASS_KEY = "passKey";
+    private String submittedUN;
     private String submittedEM;
     private String submittedPW1;
 
@@ -53,7 +55,7 @@ public class CreateUserFrag extends Fragment {
         submitFan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String submittedUN = getText(userName);
+                submittedUN = getText(userName);
                 submittedEM = getText(email);
                 submittedPW1 = getText(passOne);
                 String submittedPW2 = getText(passTwo);
@@ -74,16 +76,17 @@ public class CreateUserFrag extends Fragment {
 
                             SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(USER_KEY,submittedUN);
                             editor.putString(NAME_KEY, submittedEM);
                             editor.putString(PASS_KEY, submittedPW1);
 
-                            loggedIn = true;
+                            //loggedIn = true;
 
                             // Commit the edits!
                             editor.apply();
-                            Intent intent = new Intent();
-                            intent.setClass(getContext(), TabActivity.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent();
+//                            intent.setClass(getContext(), TabActivity.class);
+//                            startActivity(intent);
                         } catch (JSONException e) {
                             System.out.println(e.getMessage());
                         }

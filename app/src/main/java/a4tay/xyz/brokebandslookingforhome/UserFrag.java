@@ -22,11 +22,13 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class UserFrag extends Fragment {
     private static final String MY_PREFS = "harbor-preferences";
+    private static final String USER_KEY = "userKey";
     private static final String NAME_KEY = "nameKey";
     private static final String PASS_KEY = "passKey";
     private TextView userName;
     private TextView userEmail;
     private Button userLogoff;
+    private String submittedUN;
     private String submittedEM;
 
     @Override
@@ -39,10 +41,11 @@ public class UserFrag extends Fragment {
 
         SharedPreferences prefs = getContext().getSharedPreferences(MY_PREFS, MODE_PRIVATE);
 
+        submittedUN = prefs.getString(USER_KEY, "");//defining an empty string as the default
         submittedEM = prefs.getString(NAME_KEY, "");//defining an empty string as the default
 
         if(!submittedEM.equals("")) {
-            userName.setText(submittedEM);
+            userName.setText(submittedUN);
             userEmail.setText(submittedEM);
         }
 
@@ -53,6 +56,7 @@ public class UserFrag extends Fragment {
             public void onClick(View view) {
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(USER_KEY, "");
                 editor.putString(NAME_KEY, "");
                 editor.putString(PASS_KEY, "");
 
