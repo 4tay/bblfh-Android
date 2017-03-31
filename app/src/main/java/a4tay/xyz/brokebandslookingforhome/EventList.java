@@ -1,7 +1,10 @@
 package a4tay.xyz.brokebandslookingforhome;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -63,6 +68,34 @@ public class EventList extends Fragment implements LoaderManager.LoaderCallbacks
         final View rootView = inflater.inflate(R.layout.event_list_activity, container, false);
         eventRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_event_list);
         getLoaderManager().initLoader(1,null,this).forceLoad();
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                rootView.findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                        Intent intent = new Intent();
+                        switch (item.getItemId()) {
+                            case R.id.events:
+                                Toast.makeText(getContext(),"First",Toast.LENGTH_LONG).show();
+                                intent.setClass(getContext(),TabActivity.class);
+                                startActivity(intent);
+                                break;
+                            case R.id.offers:
+                                Toast.makeText(getContext(),"Second",Toast.LENGTH_LONG).show();
+                                intent.setClass(getContext(),HomeTabs.class);
+                                startActivity(intent);
+                                break;
+                            case R.id.homes:
+                                Toast.makeText(getContext(),"Third",Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                        return false;
+                    }
+                });
 
         return rootView;
     }

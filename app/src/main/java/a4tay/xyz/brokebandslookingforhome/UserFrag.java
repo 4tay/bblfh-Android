@@ -60,6 +60,8 @@ public class UserFrag extends Fragment {
                 editor.putString(NAME_KEY, "");
                 editor.putString(PASS_KEY, "");
 
+                editor.apply();
+
                 loggedIn = false;
                 Intent intent = new Intent();
                 intent.setClass(getContext(), SettingsActivity.class);

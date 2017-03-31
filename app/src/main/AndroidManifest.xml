@@ -18,9 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" android:parentActivityName=".TabActivity">
-
-        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".TabActivity"/>
+        <activity
+            android:name=".HomeTabs"
+            android:theme="@style/MyMaterialTheme"/>
     </application>
+
 
 </manifest>

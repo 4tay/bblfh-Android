@@ -17,30 +17,31 @@ import a4tay.xyz.brokebandslookingforhome.Util.BCrypt;
 import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
 
 import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by johnkonderla on 3/21/17.
+ * Created by johnkonderla on 3/26/17.
  */
 
-public class LoginCreate extends AsyncTask<String, Object, String> {
+public class HomeCreate extends AsyncTask<String, Object, String> {
 
     private Activity myActivity;
     private ProgressDialog statusDialog;
     private static final String MY_PREFS = "harbor-preferences";
-    private static final String USER_KEY = "userKey";
     private static final String NAME_KEY = "nameKey";
     private static final String PASS_KEY = "passKey";
-    private static final String SALT = "$2a$10$759xZSepASleX1bXBhoCDu";
-    private static final String LOG_TAG = LoginCreate.class.getSimpleName();
+    private String submittedEM;
+    private String submittedPW1;
+    private static final String LOG_TAG = HomeCreate.class.getSimpleName();
 
-    public LoginCreate(Activity activity) {
+    public HomeCreate(Activity activity) {
 
         myActivity = activity;
     }
 
     protected void onPreExecute() {
         statusDialog = new ProgressDialog(myActivity);
-        statusDialog.setMessage("Logging in...");
+        statusDialog.setMessage("Creating a home...");
         statusDialog.setIndeterminate(false);
         statusDialog.setCancelable(false);
         statusDialog.show();
@@ -51,22 +52,15 @@ public class LoginCreate extends AsyncTask<String, Object, String> {
         try {
             params = new JSONObject(args[1]);
 
-            String paramPW = "fanPass";
-            String unencryptedPass = params.optString(paramPW);
-            publishProgress("Encrypting password...");
-            String hashed = BCrypt.hashpw(unencryptedPass,SALT);
-            hashed = hashed.replace("$","q");
-            hashed = hashed.replace("/","r");
-            hashed = hashed.replace(".","1");
-            params.put(paramPW, hashed);
+            SharedPreferences prefs = myActivity.getSharedPreferences(MY_PREFS, MODE_PRIVATE);
 
-            SharedPreferences sharedPreferences = myActivity.getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(USER_KEY,params.optString("fanName"));
-            editor.putString(NAME_KEY, params.optString("fanEmail"));
-            editor.putString(PASS_KEY, hashed);
-            // Commit the edits!
-            editor.apply();
+            submittedEM = prefs.getString(NAME_KEY, "");//defining an empty string as the default
+            submittedPW1 = prefs.getString(PASS_KEY, ""); //defining an empty string as the default
+            params.put("userName", submittedEM);
+            params.put("password", submittedPW1);
+            statusDialog.setMessage("got un and pw");
+
+
         } catch (JSONException e) {
             Log.e(LOG_TAG,"Error with JSON...",e);
             params = new JSONObject();
@@ -91,14 +85,9 @@ public class LoginCreate extends AsyncTask<String, Object, String> {
 
         String responseOutcome = "";
         if(response.equals("Success!")) {
-            responseOutcome = "Login successful!!!";
-            loggedIn = true;
-            Intent intent = new Intent();
-            intent.setClass(myActivity.getApplicationContext(), TabActivity.class);
-            myActivity.startActivity(intent);
+            responseOutcome = "Made the home!!!";
         } else {
-            responseOutcome = "Login unsuccessful...";
-            loggedIn = false;
+            responseOutcome = "I failed......";
         }
         Toast.makeText(myActivity.getApplicationContext(),responseOutcome,Toast.LENGTH_LONG).show();
         statusDialog.dismiss();

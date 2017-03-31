@@ -1,21 +1,25 @@
 package a4tay.xyz.brokebandslookingforhome;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import java.util.ArrayList;
 import java.util.List;
-import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
 
-public class SettingsActivity extends AppCompatActivity {
+/**
+ * Created by johnkonderla on 3/26/17.
+ */
+
+public class HomeTabs extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -29,9 +33,9 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final android.support.v7.app.ActionBar aBar = getSupportActionBar();
-        aBar.setDisplayShowCustomEnabled(false);
+        aBar.setDisplayShowCustomEnabled(true);
         aBar.setDisplayShowTitleEnabled(false);
-        aBar.setDisplayHomeAsUpEnabled(true);
+        aBar.setDisplayHomeAsUpEnabled(false);
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -42,15 +46,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+
+
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        if(loggedIn) {
-            adapter.addFragment(new UserFrag(), "User Info");
-        } else {
-            adapter.addFragment(new LoginFrag(), "Login");
-            adapter.addFragment(new CreateUserFrag(), "New User");
-        }
+        adapter.addFragment(new HomeList(), "Home List");
+        adapter.addFragment(new AddHome(), "Add Home");
         viewPager.setAdapter(adapter);
     }
 

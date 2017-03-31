@@ -1,5 +1,6 @@
 package a4tay.xyz.brokebandslookingforhome;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import a4tay.xyz.brokebandslookingforhome.Util.BCrypt;
+import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.EncryptLoader;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginCreate;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginStatus;
 
@@ -34,9 +37,11 @@ public class LoginFrag extends Fragment {
     private static final String MY_PREFS = "harbor-preferences";
     private static final String NAME_KEY = "nameKey";
     private static final String PASS_KEY = "passKey";
+    private static final String SALT = "$2a$10$759xZSepASleX1bXBhoCDu";
     private String submittedEM;
     private String submittedPW1;
     private JSONObject userInfo;
+    private static Activity myActivity;
     private static final String LOG_TAG = LoginFrag.class.getSimpleName();
 
 
@@ -44,6 +49,8 @@ public class LoginFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.login_activity, container, false);
+
+        myActivity = getActivity();
 
         email = (EditText) rootView.findViewById(R.id.et_login_email);
         password = (EditText) rootView.findViewById(R.id.et_login_password);
@@ -59,33 +66,36 @@ public class LoginFrag extends Fragment {
                 String paramEM = "fanEmail";
                 String paramPW = "fanPass";
                 if (!submittedPW1.equals("") && !submittedEM.equals("")) {
-                    userInfo = new JSONObject();
-                    try {
-                        userInfo.put(paramEM, submittedEM);
-                        userInfo.put(paramPW, submittedPW1);
 
-                        String loginUrl = "http://dev.4tay.xyz:4567/fanLogin/";
-
-                        loginUrl = loginUrl + submittedEM + "/" + submittedPW1;
-
-                        //url = QueryUtils.newURL(userInfo,url);
-                        new LoginStatus(getActivity()).execute(new String[]{loginUrl});
-
-
-                        SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(NAME_KEY, submittedEM);
-                        editor.putString(PASS_KEY, submittedPW1);
-
-                        // Commit the edits!
-                        editor.apply();
-
-                        Intent intent = new Intent();
-                        intent.setClass(getContext(), TabActivity.class);
-                        startActivity(intent);
-                    } catch (JSONException e) {
-                        System.out.println(e.getMessage());
-                    }
+                    new EncryptLoader(getActivity()).execute(new String[] {submittedEM,submittedPW1});
+//                    userInfo = new JSONObject();
+//                    try {
+//                        String hashed = BCrypt.hashpw(submittedPW1,SALT);
+//                        userInfo.put(paramEM, submittedEM);
+//                        userInfo.put(paramPW, hashed);
+//
+//                        String loginUrl = "http://dev.4tay.xyz:4567/fanLogin/";
+//
+//                        loginUrl = loginUrl + submittedEM + "/" + hashed;
+//
+//                        //url = QueryUtils.newURL(userInfo,url);
+//                        new LoginStatus(getActivity()).execute(new String[]{loginUrl});
+//
+//
+//                        SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                        editor.putString(NAME_KEY, submittedEM);
+//                        editor.putString(PASS_KEY, hashed);
+//
+//                        // Commit the edits!
+//                        editor.apply();
+//
+//                        Intent intent = new Intent();
+//                        intent.setClass(getContext(), TabActivity.class);
+//                        startActivity(intent);
+//                    } catch (JSONException e) {
+//                        System.out.println(e.getMessage());
+//                    }
 
                     //getLoaderManager().initLoader(3, null, this).forceLoad();
                 } else if (submittedEM.equals("")) {
@@ -108,5 +118,8 @@ public class LoginFrag extends Fragment {
 
         }
         return "";
+    }
+    public static void queryForLogin(String url) {
+        new LoginStatus(myActivity).execute(new String[]{url});
     }
 }

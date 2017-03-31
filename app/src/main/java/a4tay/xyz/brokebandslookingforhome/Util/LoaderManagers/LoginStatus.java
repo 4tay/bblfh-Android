@@ -48,6 +48,8 @@ public class LoginStatus extends AsyncTask<String, Object, String> {
         publishProgress("Contacting server...");
         String result = QueryUtils.getJSONFromUrl(url[0]);
         publishProgress("Dealing with the response...");
+
+        Log.d(LOG_TAG, url[0]);
         return QueryUtils.getLogin(result);
     }
     @Override

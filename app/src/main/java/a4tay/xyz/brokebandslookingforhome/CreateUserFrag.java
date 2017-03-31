@@ -16,7 +16,9 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import a4tay.xyz.brokebandslookingforhome.Util.BCrypt;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginCreate;
+import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
 
 import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
 
@@ -33,10 +35,6 @@ public class CreateUserFrag extends Fragment {
     private Button submitFan;
     private JSONObject userInfo;
     private String url = "http://dev.4tay.xyz:4567/addFan?";
-    private static final String MY_PREFS = "harbor-preferences";
-    private static final String USER_KEY = "userKey";
-    private static final String NAME_KEY = "nameKey";
-    private static final String PASS_KEY = "passKey";
     private String submittedUN;
     private String submittedEM;
     private String submittedPW1;
@@ -55,10 +53,10 @@ public class CreateUserFrag extends Fragment {
         submitFan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submittedUN = getText(userName);
-                submittedEM = getText(email);
-                submittedPW1 = getText(passOne);
-                String submittedPW2 = getText(passTwo);
+                submittedUN = QueryUtils.getText(userName);
+                submittedEM = QueryUtils.getText(email);
+                submittedPW1 = QueryUtils.getText(passOne);
+                String submittedPW2 = QueryUtils.getText(passTwo);
                 String paramUN = "fanName";
                 String paramEM = "fanEmail";
                 String paramPW = "fanPass";
@@ -69,24 +67,8 @@ public class CreateUserFrag extends Fragment {
                             userInfo.put(paramUN, submittedUN);
                             userInfo.put(paramEM, submittedEM);
                             userInfo.put(paramPW, submittedPW1);
-
-                            //url = QueryUtils.newURL(userInfo,url);
                             new LoginCreate(getActivity()).execute(new String[]{url, userInfo.toString()});
 
-
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString(USER_KEY,submittedUN);
-                            editor.putString(NAME_KEY, submittedEM);
-                            editor.putString(PASS_KEY, submittedPW1);
-
-                            //loggedIn = true;
-
-                            // Commit the edits!
-                            editor.apply();
-//                            Intent intent = new Intent();
-//                            intent.setClass(getContext(), TabActivity.class);
-//                            startActivity(intent);
                         } catch (JSONException e) {
                             System.out.println(e.getMessage());
                         }
@@ -95,8 +77,6 @@ public class CreateUserFrag extends Fragment {
                         passOne.setError("Password is required");
                         passTwo.setError("Password must match");
                     }
-
-                    //getLoaderManager().initLoader(3, null, this).forceLoad();
                 } else if (submittedUN.equals("")) {
                     userName.setError("Name is required");
                 } else {
@@ -109,16 +89,4 @@ public class CreateUserFrag extends Fragment {
 
         return rootView;
     }
-    private String getText(EditText getFromIt) {
-
-        if(getFromIt != null) {
-
-
-            return getFromIt.getText().toString().trim();
-
-        }
-        return "";
-    }
-
-
 }

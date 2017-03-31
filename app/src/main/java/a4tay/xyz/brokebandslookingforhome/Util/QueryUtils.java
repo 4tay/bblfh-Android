@@ -1,6 +1,7 @@
 package a4tay.xyz.brokebandslookingforhome.Util;
 
 import android.util.Log;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -140,6 +141,39 @@ public class QueryUtils {
         }
         return eventList;
     }
+
+    public static ArrayList<Home> getFanHomes(String input) {
+        ArrayList<Home> homeList = new ArrayList<>();
+
+        try {
+            JSONObject fullOb = new JSONObject(input);
+            JSONArray allHomes = fullOb.getJSONArray("homes");
+            for(int i = 0; i < allHomes.length(); i++) {
+                JSONObject home = allHomes.getJSONObject(i);
+                int homeID = home.optInt("homeID");
+                int fanID = home.optInt("fanID");
+                String homeName = home.optString("homeName");
+                String homeAddress = home.optString("homeAddress");
+                String homeAddressTwo = home.optString("homeAddressTwo");
+                int homeZip = home.optInt("homeZip");
+                String homeCity = home.optString("homeCity");
+                String homeState = home.optString("homeState");
+                String homeCountry = home.optString("homeCountry");
+                float homeLat = home.optLong("homeLat");
+                float homeLng = home.optLong("homeLng");
+                String homePhoto = home.optString("homePhoto");
+
+                Home homeAdd = new Home(homeID,fanID,homeName,homeAddress,homeAddressTwo,
+                        homeZip, homeCity, homeState, homeCountry, homeLat, homeLng, homePhoto);
+                homeList.add(homeAdd);
+            }
+            return homeList;
+        } catch (JSONException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return homeList;
+
+    }
     public static ArrayList<Band> getBandList(String input) {
         ArrayList<Band> bandList = new ArrayList<>();
 
@@ -245,4 +279,14 @@ public class QueryUtils {
             }
             return result.toString();
         }
+    public static String getText(EditText getFromIt) {
+
+        if(getFromIt != null) {
+
+
+            return getFromIt.getText().toString().trim();
+
+        }
+        return "";
     }
+}
