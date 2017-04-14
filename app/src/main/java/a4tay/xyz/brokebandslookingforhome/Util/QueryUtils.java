@@ -113,33 +113,79 @@ public class QueryUtils {
         return stringBuilder.toString();
     }
 
-    public static ArrayList<Event> makeEventFromJSON(String input) {
+    public static ArrayList<Events> makeEventFromJSON(String input) {
 
-        ArrayList<Event> eventList = new ArrayList<>();
+        ArrayList<Events> eventsList = new ArrayList<>();
+
 
         try {
             JSONObject fullOb = new JSONObject(input);
-            JSONArray allEvents = fullOb.optJSONArray("tourDates");
-            for(int i = 0; i < allEvents.length(); i++) {
-                JSONObject singleEvent = allEvents.optJSONObject(i);
-                int tdID = singleEvent.optInt("showID");
-                int tourID = singleEvent.optInt("tourID");
-                int tdType = singleEvent.optInt("showType");
-                String tdName = singleEvent.optString("showName");
-                String tdAddress = singleEvent.optString("showAddress");
-                float tdLat = singleEvent.optLong("showLat");
-                float tdLng = singleEvent.optLong("showLng");
-                int tdHomeConfirmed = singleEvent.getInt("homeConfirmed");
-                String tdDate = singleEvent.getString("showDate");
-                Event newEvent = new Event(tdName,tdDate,new String[] {"some band...."});
+            JSONArray shows = fullOb.optJSONArray("shows");
+            for(int i = 0; i < shows.length(); i++) {
+                ArrayList<Event> eventList = new ArrayList<>();
+                Events events = new Events();
+                JSONObject homeShows = shows.optJSONObject(i);
+                events.setLocationName(homeShows.optString("homeName"));
+                Log.d(LOG_TAG, events.toString());
+                JSONArray allEvents = homeShows.optJSONArray("tourDates");
+                for(int j = 0; j < allEvents.length(); j++) {
+                    JSONObject singleEvent = allEvents.optJSONObject(j);
+                    int tdID = singleEvent.optInt("showID");
+                    int tourID = singleEvent.optInt("tourID");
+                    int tdType = singleEvent.optInt("showType");
+                    String tdName = singleEvent.optString("showName");
+                    String tdAddress = singleEvent.optString("showAddress");
+                    float tdLat = singleEvent.optLong("showLat");
+                    float tdLng = singleEvent.optLong("showLng");
+                    int tdHomeConfirmed = singleEvent.getInt("homeConfirmed");
+                    String tdDate = singleEvent.getString("showDate");
+                    Event newEvent = new Event(tdName,tdDate);
 
-                eventList.add(newEvent);
+                    eventList.add(newEvent);
+                }
+                events.setEvents(eventList);
+                eventsList.add(events);
             }
-            return eventList;
+
+            return eventsList;
         } catch (JSONException ex) {
             System.out.println(ex.getMessage());
         }
-        return eventList;
+        return eventsList;
+    }
+
+    public static ArrayList<Events> makeBandListWithGenre(String input) {
+
+        ArrayList<Events> eventsList = new ArrayList<>();
+
+        try {
+            JSONObject fullOb = new JSONObject(input);
+            JSONArray genres = fullOb.optJSONArray("allGenresWithBands");
+            for(int i = 0; i < genres.length(); i++) {
+                Events events = new Events();
+                ArrayList<Event> eventList = new ArrayList<>();
+                JSONObject genre = genres.optJSONObject(i);
+                events.setLocationName(genre.optString("genreName"));
+                JSONArray bandsInGenre = genre.optJSONArray("bands");
+                for(int j = 0; j < bandsInGenre.length(); j++) {
+                    JSONObject singleBand = bandsInGenre.optJSONObject(j);
+                    int bandID = singleBand.optInt("bandID");
+                    String bandName = singleBand.optString("bandName");
+                    String bandPhoto = singleBand.getString("bandPhoto");
+                    Event newEvent = new Event(bandName,genre.getString("genreName"),bandPhoto);
+
+                    eventList.add(newEvent);
+                }
+                events.setEvents(eventList);
+                eventsList.add(events);
+            }
+
+
+            return eventsList;
+        } catch (JSONException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return eventsList;
     }
 
     public static ArrayList<Home> getFanHomes(String input) {

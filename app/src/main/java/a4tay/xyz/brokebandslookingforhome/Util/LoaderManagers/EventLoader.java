@@ -26,7 +26,7 @@ public class EventLoader extends AsyncTaskLoader<ArrayList<Event>> {
     public ArrayList<Event> loadInBackground() {
         Log.d(LOG_TAG,"Loading event...");
         String response = QueryUtils.getJSONFromUrl(url);
-        return QueryUtils.makeEventFromJSON(response);
+        return new ArrayList<>();
     }
 
 }

@@ -27,15 +27,14 @@ public class BandList extends Fragment implements LoaderManager.LoaderCallbacks<
     private final static String LOG_TAG = BandList.class.getSimpleName();
 
     private String url = "http://dev.4tay.xyz:4567/bands";
-    //private String url = "http://dev.4tay.xyz:4567/bands";
     private ArrayList<Band> bandList;
     private RecyclerView bandRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.event_list_activity, container, false);
-        bandRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_event_list);
+        final View rootView = inflater.inflate(R.layout.band_list_activity, container, false);
+        bandRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_band_list);
         getLoaderManager().initLoader(2, null, this).forceLoad();
 
         return rootView;

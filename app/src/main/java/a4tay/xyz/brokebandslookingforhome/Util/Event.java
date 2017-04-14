@@ -7,12 +7,23 @@ package a4tay.xyz.brokebandslookingforhome.Util;
 public class Event {
     private String eventTitle;
     private String eventDate;
+    private String eventPhoto;
     private String[] eventLineup;
 
-    public Event(String title, String date, String[] lineup) {
+    public Event(String title, String date) {
+        eventTitle = title;
+        eventDate = date;
+    }
+    public Event(String title, String date, String photo) {
+        eventTitle = title;
+        eventDate = date;
+        eventPhoto = photo;
+    }
+    public Event(String title, String date, String[] lineup, String photo) {
         eventTitle = title;
         eventDate = date;
         eventLineup = lineup;
+        this.eventPhoto = photo;
     }
 
     public String getEventDate() {
@@ -27,6 +38,10 @@ public class Event {
         return eventLineup;
     }
 
+    public String getEventPhoto() {
+        return eventPhoto;
+    }
+
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
     }
@@ -37,5 +52,9 @@ public class Event {
 
     public void setEventLineup(String[] eventLineup) {
         this.eventLineup = eventLineup;
+    }
+
+    public void setEventPhoto(String eventPhoto) {
+        this.eventPhoto = eventPhoto;
     }
 }

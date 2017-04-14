@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+            android:textAlignment="center"
+            android:src="@color/cancelOrder"
+            android:id="@+id/iv_event_photo"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +30,7 @@
         android:fontFamily="sans-serif-condensed"
         android:textSize="24sp"
         android:textColor="@color/colorPrimary"
-        tools:text="Title Name!!"
+        tools:text="Title Name!! Longer"
         />
     <TextView
         android:layout_width="match_parent"
@@ -26,5 +42,6 @@
         android:textSize="16sp"
         android:textColor="@color/darkPurple"
         tools:text="Event Date!"/>
+    </LinearLayout>
 
 </LinearLayout>

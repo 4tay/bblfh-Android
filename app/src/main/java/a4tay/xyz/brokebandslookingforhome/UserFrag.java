@@ -70,6 +70,8 @@ public class UserFrag extends Fragment {
         });
 
 
+
+
         return rootView;
     }
 }
