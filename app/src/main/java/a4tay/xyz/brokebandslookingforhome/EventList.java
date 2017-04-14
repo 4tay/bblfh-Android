@@ -36,8 +36,8 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
     private final static String LOG_TAG = EventList.class.getSimpleName();
     //private ArrayList<Event> eventList;
     RecyclerView eventRecyclerView;
-    private static String showURL = "http://dev.4tay.xyz:4567/showsInTownWithoutConfirmation/";
-    private static String bandURL = "http://dev.4tay.xyz:4567/fanToBandByGenre/";
+    private static String showURL = "http://192.168.1.66:8080/Harbor/api/show/inTownWithoutConfirmation/";
+    private static String bandURL = "http://192.168.1.66:8080/fanToBandByGenre/";
 
     private static final String MY_PREFS = "harbor-preferences";
     private static final String NAME_KEY = "nameKey";
@@ -65,7 +65,7 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
         submittedPW1 = prefs.getString(PASS_KEY, ""); //defining an empty string as the default
         activity = getActivity();
         if(!loggedIn) {
-            String loginUrl = "http://dev.4tay.xyz:4567/fanLogin/";
+            String loginUrl = "http://192.168.1.66:8080/Harbor/api/fan/login/";
 
             loginUrl = loginUrl + submittedEM + "/" + submittedPW1;
 

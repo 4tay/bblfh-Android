@@ -57,7 +57,7 @@ public class EncryptLoader extends AsyncTask<String, Object, String> {
         hashed = hashed.replace("$","q");
         publishProgress("Got finished password encryption!!");
 
-        String loginUrl = "http://dev.4tay.xyz:4567/fanLogin/";
+        String loginUrl = "http://192.168.1.66:8080/Harbor/api/fan/login/";
 
         publishProgress("About to start writing preferences");
         SharedPreferences sharedPreferences = myActivity.getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
