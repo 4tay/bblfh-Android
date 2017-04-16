@@ -160,6 +160,7 @@ public class TabActivity extends AppCompatActivity implements OnDataSendToActivi
 
                 if(asyncReturn[0].equals("EventList")) {
                     EventList.dealWithResponse(asyncReturn[1]);
+
                     Log.d(LOG_TAG,"Launch dealWithResponse");
                 }
                 else {

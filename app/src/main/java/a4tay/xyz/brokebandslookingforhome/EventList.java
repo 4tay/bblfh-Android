@@ -107,36 +107,37 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
         switch (sequence) {
             case 0:
                 Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
-                allEvents.addAll(QueryUtils.makeEventFromJSON(str));
+                allEvents.add(QueryUtils.makeEventFromJSON(str));
                 Log.d(LOG_TAG, str);
                 sequence++;
                 adapter.notifyItemInserted(sequence);
-                new GetterAsyncLoader(activity, "EventList").execute(new String[]{bandURL});
-                break;
-            case 1:
-                Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
-                allEvents.addAll(QueryUtils.makeBandListWithGenre(str));
-                sequence++;
-                adapter.notifyItemInserted(sequence);
+                //new GetterAsyncLoader(activity, "EventList").execute(new String[]{bandURL});
                 new GetterAsyncLoader(activity, "EventList").execute(new String[]{showURL});
                 break;
-            case 2:
-                Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
-                allEvents.addAll(QueryUtils.makeEventFromJSON(str));
-                sequence++;
-                adapter.notifyItemInserted(sequence);
-                new GetterAsyncLoader(activity, "EventList").execute(new String[]{bandURL});
-                break;
-            case 3:
-                Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
-                allEvents.addAll(QueryUtils.makeBandListWithGenre(str));
-                sequence++;
-                adapter.notifyItemInserted(sequence);
-                new GetterAsyncLoader(activity, "EventList").execute(new String[]{showURL});
-                break;
+//            case 1:
+//                Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
+//                allEvents.addAll(QueryUtils.makeBandListWithGenre(str));
+//                sequence++;
+//                adapter.notifyItemInserted(sequence);
+//                new GetterAsyncLoader(activity, "EventList").execute(new String[]{showURL});
+//                break;
+//            case 2:
+//                Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
+//                allEvents.add(QueryUtils.makeEventFromJSON(str));
+//                sequence++;
+//                adapter.notifyItemInserted(sequence);
+//                new GetterAsyncLoader(activity, "EventList").execute(new String[]{bandURL});
+//                break;
+//            case 3:
+//                Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
+//                allEvents.addAll(QueryUtils.makeBandListWithGenre(str));
+//                sequence++;
+//                adapter.notifyItemInserted(sequence);
+//                new GetterAsyncLoader(activity, "EventList").execute(new String[]{showURL});
+//                break;
             default:
                 Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
-                allEvents.addAll(QueryUtils.makeEventFromJSON(str));
+                allEvents.add(QueryUtils.makeEventFromJSON(str));
                 adapter.notifyItemInserted(sequence + 1);
                 sequence = 0;
                 break;

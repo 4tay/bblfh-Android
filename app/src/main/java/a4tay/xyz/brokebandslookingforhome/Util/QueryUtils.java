@@ -113,45 +113,40 @@ public class QueryUtils {
         return stringBuilder.toString();
     }
 
-    public static ArrayList<Events> makeEventFromJSON(String input) {
+    public static Events makeEventFromJSON(String input) {
 
         ArrayList<Events> eventsList = new ArrayList<>();
 
 
         try {
             JSONObject fullOb = new JSONObject(input);
-            JSONArray shows = fullOb.optJSONArray("shows");
-            for(int i = 0; i < shows.length(); i++) {
-                ArrayList<Event> eventList = new ArrayList<>();
-                Events events = new Events();
-                JSONObject homeShows = shows.optJSONObject(i);
-                events.setLocationName(homeShows.optString("homeName"));
-                Log.d(LOG_TAG, events.toString());
-                JSONArray allEvents = homeShows.optJSONArray("tourDates");
-                for(int j = 0; j < allEvents.length(); j++) {
-                    JSONObject singleEvent = allEvents.optJSONObject(j);
-                    int tdID = singleEvent.optInt("showID");
-                    int tourID = singleEvent.optInt("tourID");
-                    int tdType = singleEvent.optInt("showType");
-                    String tdName = singleEvent.optString("showName");
-                    String tdAddress = singleEvent.optString("showAddress");
-                    float tdLat = singleEvent.optLong("showLat");
-                    float tdLng = singleEvent.optLong("showLng");
-                    int tdHomeConfirmed = singleEvent.getInt("homeConfirmed");
-                    String tdDate = singleEvent.getString("showDate");
-                    Event newEvent = new Event(tdName,tdDate);
-
-                    eventList.add(newEvent);
+            ArrayList<Event> eventList = new ArrayList<>();
+            Events events = new Events();
+            JSONArray allEvents = fullOb.optJSONArray("tourDates");
+            for(int j = 0; j < allEvents.length(); j++) {
+                JSONObject singleEvent = allEvents.optJSONObject(j);
+                int tdID = singleEvent.optInt("showID");
+                int tourID = singleEvent.optInt("tourID");
+                int tdType = singleEvent.optInt("showType");
+                String tdName = singleEvent.optString("showName");
+                String tdAddress = singleEvent.optString("showAddress");
+                float tdLat = singleEvent.optLong("showLat");
+                float tdLng = singleEvent.optLong("showLng");
+                int tdHomeConfirmed = singleEvent.getInt("homeConfirmed");
+                String tdDate = singleEvent.optString("showDate");
+                String tdPhoto = singleEvent.optString("showPhoto");
+                Event newEvent = new Event(tdName,tdDate,tdID,1);
+                if(tdPhoto != null) {
+                    newEvent.setEventPhoto(tdPhoto);
                 }
-                events.setEvents(eventList);
-                eventsList.add(events);
+                eventList.add(newEvent);
             }
-
-            return eventsList;
+            events.setEvents(eventList);
+            return events;
         } catch (JSONException ex) {
             System.out.println(ex.getMessage());
         }
-        return eventsList;
+        return null;
     }
 
     public static ArrayList<Events> makeBandListWithGenre(String input) {
@@ -171,8 +166,11 @@ public class QueryUtils {
                     JSONObject singleBand = bandsInGenre.optJSONObject(j);
                     int bandID = singleBand.optInt("bandID");
                     String bandName = singleBand.optString("bandName");
-                    String bandPhoto = singleBand.getString("bandPhoto");
-                    Event newEvent = new Event(bandName,genre.getString("genreName"),bandPhoto);
+                    String bandPhoto = singleBand.optString("bandPhoto");
+                    Event newEvent = new Event(bandName,genre.getString("genreName"),bandID, 2);
+                    if(bandPhoto != null && !bandPhoto.equals("")) {
+                        newEvent.setEventPhoto(bandPhoto);
+                    }
 
                     eventList.add(newEvent);
                 }

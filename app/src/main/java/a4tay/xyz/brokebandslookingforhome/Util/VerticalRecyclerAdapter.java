@@ -41,11 +41,11 @@ public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalRecycl
     @Override
     public void onBindViewHolder(ItemRowHolder itemRowHolder, int i) {
 
-        final String sectionName = dataList.get(i).getLocationName();
+        //final String sectionName = dataList.get(i).getLocationName();
 
         ArrayList singleSectionItems = dataList.get(i).getEvents();
 
-        itemRowHolder.itemTitle.setText(sectionName);
+        //itemRowHolder.itemTitle.setText(sectionName);
 
         HorizontalRecyclerAdapter itemListDataAdapter = new HorizontalRecyclerAdapter(mContext, singleSectionItems);
 
@@ -71,7 +71,7 @@ public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalRecycl
         public ItemRowHolder(View view) {
             super(view);
 
-            this.itemTitle = (TextView) view.findViewById(R.id.tv_event_list_title);
+            //this.itemTitle = (TextView) view.findViewById(R.id.tv_event_list_title);
             this.recycler_view_list = (RecyclerView) view.findViewById(R.id.rv_event_list);
 
 

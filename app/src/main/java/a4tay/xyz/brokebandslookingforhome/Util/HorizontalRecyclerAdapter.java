@@ -1,6 +1,7 @@
 package a4tay.xyz.brokebandslookingforhome.Util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import a4tay.xyz.brokebandslookingforhome.R;
+import a4tay.xyz.brokebandslookingforhome.ShowDetail;
 
 /**
  * Created by johnkonderla on 4/2/17.
@@ -44,7 +46,11 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
         Event singleItem = itemsList.get(i);
 
         holder.tvTitle.setText(singleItem.getEventTitle());
-        Picasso.with(mContext).load(singleItem.getEventPhoto()).placeholder(R.drawable.anchor_logo).into(holder.itemImage);
+        if (!singleItem.getEventPhoto().equals("")) {
+            Picasso.with(mContext).load(singleItem.getEventPhoto()).placeholder(R.drawable.anchor_logo).into(holder.itemImage);
+        } else {
+            Picasso.with(mContext).load(R.drawable.anchor_logo).into(holder.itemImage);
+        }
     }
 
     @Override
@@ -72,6 +78,9 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
 
 
                     Toast.makeText(v.getContext(), tvTitle.getText(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, ShowDetail.class);
+                    mContext.startActivity(intent);
 
                 }
             });
@@ -80,5 +89,4 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
         }
 
     }
-
 }

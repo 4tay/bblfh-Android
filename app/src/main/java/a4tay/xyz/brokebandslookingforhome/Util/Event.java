@@ -8,11 +8,21 @@ public class Event {
     private String eventTitle;
     private String eventDate;
     private String eventPhoto;
+    private int eventType;
+    private int eventID;
     private String[] eventLineup;
 
     public Event(String title, String date) {
         eventTitle = title;
         eventDate = date;
+
+    }
+    public Event(String title, String date, int id, int type) {
+        eventTitle = title;
+        eventDate = date;
+        eventType = type;
+        eventID = id;
+
     }
     public Event(String title, String date, String photo) {
         eventTitle = title;
@@ -42,6 +52,14 @@ public class Event {
         return eventPhoto;
     }
 
+    public int getEventType() {
+        return eventType;
+    }
+
+    public int getEventID() {
+        return eventID;
+    }
+
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
     }
@@ -56,5 +74,13 @@ public class Event {
 
     public void setEventPhoto(String eventPhoto) {
         this.eventPhoto = eventPhoto;
+    }
+
+    public void setEventType(int eventType) {
+        this.eventType = eventType;
+    }
+
+    public void setEventID(int eventID) {
+        this.eventID = eventID;
     }
 }

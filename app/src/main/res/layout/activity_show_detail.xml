@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="a4tay.xyz.brokebandslookingforhome.ShowDetail"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/anchor_logo"
+        android:id="@+id/iv_show_detail_photo"
+            android:contentDescription="show poster!"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Show!"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent2"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="36sp"
+
+        android:id="@+id/tv_show_detail_title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:id="@+id/tv_show_detail_info"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam risus diam, auctor at convallis eget, rutrum elementum lacus. Nulla tincidunt justo ac ultrices fringilla. Sed quis iaculis sapien. Nam tincidunt id risus vitae pretium. Ut vehicula diam vitae quam congue porttitor. Integer eget elit felis. Suspendisse mi mauris, pulvinar quis commodo et, efficitur mattis felis. Fusce sed tincidunt leo, a luctus lectus. Sed vitae orci sem. Nam facilisis eget dui non scelerisque. Phasellus sodales id justo at rutrum. Integer euismod massa felis, ut semper odio gravida eget."
+        />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Harboring Perks!"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent2"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="36sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:id="@+id/tv_show_detail_band_offer"
+            android:text="3 tickets, 3 shirts, and a super late party!!"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:id="@+id/tv_show_detail_date"
+            android:text="November 20th - November 8th"/>
+
+    </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:text="3 members to harbor"
+            android:gravity="center_vertical"
+            android:textSize="24sp"
+            android:id="@+id/tv_show_detail_members" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/cancelOrder"
+            android:text="Add!"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:id="@+id/tv_show_detail_offer_home"/>
+
+    </LinearLayout>
+
+</LinearLayout>
