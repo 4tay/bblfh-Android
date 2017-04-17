@@ -10,6 +10,7 @@ public class Event {
     private String eventPhoto;
     private int eventType;
     private int eventID;
+    private int secondaryID;
     private String[] eventLineup;
 
     public Event(String title, String date) {
@@ -60,6 +61,10 @@ public class Event {
         return eventID;
     }
 
+    public int getSecondaryID() {
+        return secondaryID;
+    }
+
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
     }
@@ -82,5 +87,9 @@ public class Event {
 
     public void setEventID(int eventID) {
         this.eventID = eventID;
+    }
+
+    public void setSecondaryID(int secondaryID) {
+        this.secondaryID = secondaryID;
     }
 }

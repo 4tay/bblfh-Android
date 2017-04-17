@@ -11,7 +11,7 @@ import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
  * Created by johnkonderla on 3/26/17.
  */
 
-public class HomeLoader extends AsyncTaskLoader<ArrayList<Home>> {
+public class HomeLoader extends AsyncTaskLoader<ArrayList<?>> {
     private String url;
     private static final String LOG_TAG = HomeLoader.class.getSimpleName();
 
@@ -20,8 +20,8 @@ public class HomeLoader extends AsyncTaskLoader<ArrayList<Home>> {
         this.url = url;
     }
     @Override
-    public ArrayList<Home> loadInBackground() {
-        Log.d(LOG_TAG,"Loading event...");
+    public ArrayList<?> loadInBackground() {
+        Log.d(LOG_TAG,"Loading homes...");
         String response = QueryUtils.getJSONFromUrl(url);
         return QueryUtils.getFanHomes(response);
     }

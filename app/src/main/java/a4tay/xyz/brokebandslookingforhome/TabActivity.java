@@ -32,6 +32,7 @@ public class TabActivity extends AppCompatActivity implements OnDataSendToActivi
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private static final String LOG_TAG = TabActivity.class.getSimpleName();
+    public static String baseURL = "http://192.168.1.66:8080/Harbor/api/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

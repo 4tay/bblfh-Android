@@ -9,7 +9,7 @@
 
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+        <item name="windowActionBar">true</item>
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorAccent2</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -27,6 +27,14 @@
         <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
             <item name="android:background">@color/colorAccent</item>
         </style>
+
+    <style name="SpinnerStyle" parent="MyMaterialTheme.Base">
+        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
 
 

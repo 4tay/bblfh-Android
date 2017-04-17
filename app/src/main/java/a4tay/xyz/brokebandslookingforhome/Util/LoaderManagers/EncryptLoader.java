@@ -15,6 +15,8 @@ import a4tay.xyz.brokebandslookingforhome.TabActivity;
 import a4tay.xyz.brokebandslookingforhome.Util.BCrypt;
 import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
 
+import static a4tay.xyz.brokebandslookingforhome.TabActivity.baseURL;
+
 /**
  * Created by johnkonderla on 3/25/17.
  */
@@ -57,7 +59,7 @@ public class EncryptLoader extends AsyncTask<String, Object, String> {
         hashed = hashed.replace("$","q");
         publishProgress("Got finished password encryption!!");
 
-        String loginUrl = "http://192.168.1.66:8080/Harbor/api/fan/login/";
+        String loginUrl = baseURL + "fan/login/";
 
         publishProgress("About to start writing preferences");
         SharedPreferences sharedPreferences = myActivity.getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);

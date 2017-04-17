@@ -113,9 +113,7 @@ public class QueryUtils {
         return stringBuilder.toString();
     }
 
-    public static Events makeEventFromJSON(String input) {
-
-        ArrayList<Events> eventsList = new ArrayList<>();
+    public static ArrayList<Event> makeEventFromJSON(String input) {
 
 
         try {
@@ -135,14 +133,17 @@ public class QueryUtils {
                 int tdHomeConfirmed = singleEvent.getInt("homeConfirmed");
                 String tdDate = singleEvent.optString("showDate");
                 String tdPhoto = singleEvent.optString("showPhoto");
+                int tdBandID = singleEvent.optInt("bandID");
                 Event newEvent = new Event(tdName,tdDate,tdID,1);
                 if(tdPhoto != null) {
                     newEvent.setEventPhoto(tdPhoto);
                 }
+                if(tdBandID != 0) {
+                    newEvent.setSecondaryID(tdBandID);
+                }
                 eventList.add(newEvent);
             }
-            events.setEvents(eventList);
-            return events;
+            return eventList;
         } catch (JSONException ex) {
             System.out.println(ex.getMessage());
         }
@@ -229,8 +230,20 @@ public class QueryUtils {
                 String bandName = band.optString("bandName");
                 String bandGenre = band.optString("bandGenre");
                 int bandID = band.optInt("bandID");
+                int memberCount = band.optInt("bandMemberCount");
+                int homeConfirmed = band.optInt("homeConfirmed");
+                String bandOffer = band.optString("bandOffer");
                 Band bandAdd = new Band(bandName,bandGenre,bandID);
+                if(memberCount > 0 && bandOffer != null && !bandOffer.equals("")) {
+                    bandAdd.setMemberCount(memberCount);
+                    bandAdd.setOffer(bandOffer);
+                }
                 bandList.add(bandAdd);
+            }
+
+            for(int i = 0; i < bandList.size(); i ++) {
+                Log.d(LOG_TAG, "print the names! " + bandList.get(i).getName());
+                Log.d(LOG_TAG, "print the offers! " + bandList.get(i).getOffer());
             }
             return bandList;
         } catch (JSONException ex) {
@@ -267,6 +280,8 @@ public class QueryUtils {
                     new OutputStreamWriter(os, "UTF-8"));
             writer.write(getPostDataString(params));
 
+            Log.d(LOG_TAG,writer.toString());
+
             writer.flush();
             writer.close();
             os.close();
@@ -299,7 +314,7 @@ public class QueryUtils {
         }
 
     }
-        private static String getPostDataString(JSONObject params) throws Exception {
+        public static String getPostDataString(JSONObject params) throws Exception {
 
             StringBuilder result = new StringBuilder();
             boolean first = true;
@@ -332,5 +347,56 @@ public class QueryUtils {
 
         }
         return "";
+    }
+
+    public static String postURL(String stringURL) {
+        try {
+
+            URL url = new URL(stringURL); // here is your URL
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(10000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            //writer.write(getPostDataString(params));
+
+            Log.d(LOG_TAG,writer.toString());
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(
+                        conn.getInputStream()));
+
+                StringBuffer stringBuffer = new StringBuffer("");
+                String line = "";
+
+                if ((line = in.readLine()) != null) {
+                    stringBuffer.append(line);
+                }
+
+                in.close();
+                return stringBuffer.toString();
+
+            } else {
+                Log.e(LOG_TAG,String.valueOf(responseCode));
+                return "";
+            }
+        } catch (Exception e) {
+            Log.e(LOG_TAG,"Exception",e);
+            return "";
+        }
+
     }
 }

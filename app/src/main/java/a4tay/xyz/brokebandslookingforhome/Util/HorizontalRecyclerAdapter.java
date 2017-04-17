@@ -51,6 +51,8 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
         } else {
             Picasso.with(mContext).load(R.drawable.anchor_logo).into(holder.itemImage);
         }
+        holder.eventID = singleItem.getEventID();
+        holder.eventType = singleItem.getEventType();
     }
 
     @Override
@@ -63,6 +65,8 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
         protected TextView tvTitle;
 
         protected ImageView itemImage;
+        protected int eventType;
+        protected int eventID;
 
 
         public SingleItemRowHolder(View view) {
@@ -76,9 +80,9 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
                 @Override
                 public void onClick(View v) {
 
-
-                    Toast.makeText(v.getContext(), tvTitle.getText(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
+                    intent.putExtra("eventID", eventID);
+                    intent.putExtra("eventType", eventType);
                     intent.setClass(mContext, ShowDetail.class);
                     mContext.startActivity(intent);
 

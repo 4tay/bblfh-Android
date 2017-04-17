@@ -24,12 +24,12 @@ public class GetterAsyncLoader extends AsyncTask<String, Object, String> {
     private String submittedUN;
     private final static String LOG_TAG = GetterAsyncLoader.class.getSimpleName();
     private OnDataSendToActivity dataSendToActivity;
-    private String fragName;
+    private String callingName;
 
-    public GetterAsyncLoader(Activity activity, String fragName) {
+    public GetterAsyncLoader(Activity activity, String callingName) {
 
         myActivity = activity;
-        this.fragName = fragName;
+        this.callingName = callingName;
         dataSendToActivity = (OnDataSendToActivity)activity;
     }
 
@@ -55,7 +55,11 @@ public class GetterAsyncLoader extends AsyncTask<String, Object, String> {
         super.onPostExecute(response);
 
         Log.d(LOG_TAG,"onPostExecute");
-        dataSendToActivity.sendData(new String[] {fragName,response});
+        if(dataSendToActivity == null) {
+            Log.d(LOG_TAG, "dataSendToActivity was null");
+        } else {
+            dataSendToActivity.sendData(new String[] {callingName,response});
+        }
 
     }
 }

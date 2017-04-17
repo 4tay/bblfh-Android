@@ -45,6 +45,10 @@ public class Home {
         return homeName;
     }
 
+    public int getHomeID() {
+        return homeID;
+    }
+
     public String getHomeCity() {
         return homeCity;
     }

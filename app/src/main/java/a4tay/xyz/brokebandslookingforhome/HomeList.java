@@ -28,7 +28,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by johnkonderla on 3/26/17.
  */
 
-public class HomeList extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Home>> {
+public class HomeList extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<?>> {
 
     private final static String LOG_TAG = HomeList.class.getSimpleName();
     private ArrayList<Home> homeList;
@@ -135,23 +135,23 @@ public class HomeList extends Fragment implements LoaderManager.LoaderCallbacks<
 
 
     @Override
-    public Loader<ArrayList<Home>> onCreateLoader(int id, Bundle args) {
+    public Loader<ArrayList<?>> onCreateLoader(int id, Bundle args) {
 
 
         return new HomeLoader(getContext(),url );
     }
 
     @Override
-    public void onLoadFinished(Loader<ArrayList<Home>> loader, ArrayList<Home> data) {
+    public void onLoadFinished(Loader<ArrayList<?>> loader, ArrayList<?> data) {
 
-        homeList = data;
+        homeList = (ArrayList<Home>) data;
 
         Log.d(LOG_TAG,"homeList is " + String.valueOf(homeList.size()) + " long!");
         updateUI();
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList<Home>> loader) {
+    public void onLoaderReset(Loader<ArrayList<?>> loader) {
         homeList = new ArrayList<>();
 
     }

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,29 +17,35 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
+import a4tay.xyz.brokebandslookingforhome.Util.Band;
 import a4tay.xyz.brokebandslookingforhome.Util.Event;
 import a4tay.xyz.brokebandslookingforhome.Util.EventRecyclerAdapter;
 import a4tay.xyz.brokebandslookingforhome.Util.Events;
+import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.DetailLoader;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.GetterAsyncLoader;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginStatus;
 import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
 import a4tay.xyz.brokebandslookingforhome.Util.VerticalRecyclerAdapter;
 
+import static a4tay.xyz.brokebandslookingforhome.TabActivity.baseURL;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by johnkonderla on 3/12/17.
  */
 
-public class EventList extends Fragment /*implements LoaderManager.LoaderCallbacks<ArrayList<Event>>*/{
+public class EventList extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<?>>{
 
     private final static String LOG_TAG = EventList.class.getSimpleName();
     //private ArrayList<Event> eventList;
     RecyclerView eventRecyclerView;
-    private static String showURL = "http://192.168.1.66:8080/Harbor/api/show/inTownWithoutConfirmation/";
-    private static String bandURL = "http://192.168.1.66:8080/fanToBandByGenre/";
+
+    private static String showURL = baseURL + "show/inTownWithoutConfirmation/";
+    private static String bandURL = baseURL + "fanToBandByGenre/";
 
     private static final String MY_PREFS = "harbor-preferences";
     private static final String NAME_KEY = "nameKey";
@@ -65,7 +73,7 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
         submittedPW1 = prefs.getString(PASS_KEY, ""); //defining an empty string as the default
         activity = getActivity();
         if(!loggedIn) {
-            String loginUrl = "http://192.168.1.66:8080/Harbor/api/fan/login/";
+            String loginUrl = baseURL + "fan/login/";
 
             loginUrl = loginUrl + submittedEM + "/" + submittedPW1;
 
@@ -73,7 +81,7 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
             new LoginStatus(activity).execute(new String[]{loginUrl});
             showURL = showURL + submittedEM + "/" + submittedPW1;
             bandURL = bandURL + submittedEM + "/" + submittedPW1;
-            new GetterAsyncLoader(activity, "EventList").execute(new String[]{showURL});
+            //new GetterAsyncLoader(activity, "EventList").execute(new String[]{showURL});
 
         }
 
@@ -90,6 +98,7 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
         my_recycler_view.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
 
         my_recycler_view.setAdapter(adapter);
+        getLoaderManager().initLoader(5, null, this).forceLoad();
 
         return rootView;
     }
@@ -97,17 +106,43 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(activity,"onResume was called", Toast.LENGTH_SHORT).show();
+        sequence = 0;
 
         //new GetterAsyncLoader(activity, "EventList").execute(new String[]{showURL});
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<?>> loader, ArrayList<?> data) {
+        Events events = new Events();
+        events.setEvents((ArrayList<Event>) data);
+        allEvents.add(events);
+        sequence++;
+        adapter.notifyItemInserted(sequence);
+        if(sequence < 3) {
+            getLoaderManager().initLoader(5, null, this).forceLoad();
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<?>> loader) {
+
+    }
+
+    @Override
+    public Loader<ArrayList<?>> onCreateLoader(int id, Bundle args) {
+
+        return new DetailLoader(getContext(),showURL, 1);
     }
 
     public static void dealWithResponse(String str) {
         switch (sequence) {
             case 0:
                 Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
-                allEvents.add(QueryUtils.makeEventFromJSON(str));
+                Events events = new Events();
+                events.setEvents(QueryUtils.makeEventFromJSON(str));
+                allEvents.add(events);
                 Log.d(LOG_TAG, str);
                 sequence++;
                 adapter.notifyItemInserted(sequence);
@@ -137,7 +172,9 @@ public class EventList extends Fragment /*implements LoaderManager.LoaderCallbac
 //                break;
             default:
                 Log.d(LOG_TAG,String.valueOf(sequence) + " " + str);
-                allEvents.add(QueryUtils.makeEventFromJSON(str));
+                Events eventsTwo = new Events();
+                eventsTwo.setEvents(QueryUtils.makeEventFromJSON(str));
+                allEvents.add(eventsTwo);
                 adapter.notifyItemInserted(sequence + 1);
                 sequence = 0;
                 break;
