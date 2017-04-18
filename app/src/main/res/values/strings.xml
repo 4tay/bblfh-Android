@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Harbor</string>
+    <string name="title_activity_band_offers">BandOffers</string>
 </resources>

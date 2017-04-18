@@ -1,6 +1,11 @@
 package a4tay.xyz.brokebandslookingforhome;
 
+/**
+ * Created by johnkonderla on 4/17/17.
+ */
+
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
@@ -9,21 +14,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import static a4tay.xyz.brokebandslookingforhome.TabActivity.loggedIn;
 
-public class SettingsActivity extends AppCompatActivity {
+import static a4tay.xyz.brokebandslookingforhome.TabActivity.inBand;
+
+/**
+ * Created by johnkonderla on 3/26/17.
+ */
+
+public class BandTabs extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +42,9 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final android.support.v7.app.ActionBar aBar = getSupportActionBar();
-        aBar.setDisplayShowCustomEnabled(false);
+        aBar.setDisplayShowCustomEnabled(true);
         aBar.setDisplayShowTitleEnabled(false);
-        aBar.setDisplayHomeAsUpEnabled(true);
+        aBar.setDisplayHomeAsUpEnabled(false);
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -46,8 +55,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        if(inBand > 0) {
+            bottomNavigationView.getMenu().getItem(2).setTitle("Band");
+        }
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -57,33 +68,33 @@ public class SettingsActivity extends AppCompatActivity {
                         Intent intent = new Intent();
                         switch (item.getItemId()) {
                             case R.id.it_bottom_nav_one:
-                                Toast.makeText(getApplicationContext(),"First",Toast.LENGTH_LONG).show();
+
                                 intent.setClass(getApplicationContext(),TabActivity.class);
                                 startActivity(intent);
-                                finish();
                                 break;
                             case R.id.it_bottom_nav_two:
-                                Toast.makeText(getApplicationContext(),"Second",Toast.LENGTH_LONG).show();
-                                intent.setClass(getApplicationContext(),HomeTabs.class);
+                                if(inBand > 0) {
+                                    intent.setClass(getApplicationContext(),BandTabs.class);
+                                } else {
+                                    intent.setClass(getApplicationContext(), HomeTabs.class);
+                                }
                                 startActivity(intent);
-                                finish();
                                 break;
                             case R.id.it_bottom_nav_three:
-                                Toast.makeText(getApplicationContext(),"Third",Toast.LENGTH_LONG).show();
+
                                 break;
                         }
                         return false;
                     }
                 });
+
+
+
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        if(loggedIn) {
-            adapter.addFragment(new UserFrag(), "User Info");
-        } else {
-            adapter.addFragment(new LoginFrag(), "Login");
-            adapter.addFragment(new CreateUserFrag(), "New User");
-        }
+        adapter.addFragment(new HomeList(), "Home List");
+        adapter.addFragment(new AddHome(), "Add Home");
         viewPager.setAdapter(adapter);
     }
 

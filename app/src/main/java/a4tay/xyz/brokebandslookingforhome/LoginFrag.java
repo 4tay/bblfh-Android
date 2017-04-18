@@ -22,7 +22,7 @@ import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.EncryptLoader;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginCreate;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginStatus;
 
-import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
+import static a4tay.xyz.brokebandslookingforhome.TabActivity.loggedIn;
 import static android.content.Context.MODE_PRIVATE;
 
 /**

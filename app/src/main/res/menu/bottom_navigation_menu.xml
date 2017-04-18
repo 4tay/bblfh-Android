@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/events"
+        android:id="@+id/it_bottom_nav_one"
         android:enabled="true"
         android:icon="@android:drawable/arrow_up_float"
         android:title="Events"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/offers"
+        android:id="@+id/it_bottom_nav_two"
         android:enabled="true"
         android:icon="@android:drawable/arrow_up_float"
         android:title="Offers"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/homes"
+        android:id="@+id/it_bottom_nav_three"
         android:enabled="true"
         android:icon="@android:drawable/arrow_up_float"
         android:title="Homes"

@@ -33,7 +33,7 @@ import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.PutManager;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.PutterAsyncLoader;
 
 import static a4tay.xyz.brokebandslookingforhome.EventList.activity;
-import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
+import static a4tay.xyz.brokebandslookingforhome.TabActivity.loggedIn;
 import static a4tay.xyz.brokebandslookingforhome.TabActivity.baseURL;
 import static android.content.Context.MODE_PRIVATE;
 

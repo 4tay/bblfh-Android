@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
+import static a4tay.xyz.brokebandslookingforhome.TabActivity.loggedIn;
 import static android.content.Context.MODE_PRIVATE;
 
 /**

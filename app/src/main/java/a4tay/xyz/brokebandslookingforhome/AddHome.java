@@ -118,17 +118,17 @@ public class AddHome extends Fragment {
 
                         Intent intent = new Intent();
                         switch (item.getItemId()) {
-                            case R.id.events:
+                            case R.id.it_bottom_nav_one:
                                 Toast.makeText(getContext(),"First",Toast.LENGTH_LONG).show();
                                 intent.setClass(getContext(),TabActivity.class);
                                 startActivity(intent);
                                 break;
-                            case R.id.offers:
+                            case R.id.it_bottom_nav_two:
                                 Toast.makeText(getContext(),"Second",Toast.LENGTH_LONG).show();
                                 intent.setClass(getContext(),HomeTabs.class);
                                 startActivity(intent);
                                 break;
-                            case R.id.homes:
+                            case R.id.it_bottom_nav_three:
                                 Toast.makeText(getContext(),"Third",Toast.LENGTH_LONG).show();
                                 break;
                         }

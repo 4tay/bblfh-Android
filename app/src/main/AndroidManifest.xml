@@ -27,10 +27,15 @@
         <activity
             android:name=".HomeTabs"
             android:screenOrientation="portrait" />
-        <activity android:name=".ShowDetail"
+        <activity
+            android:name=".ShowDetail"
             android:parentActivityName=".TabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme"/>
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".BandOffers"
+            android:label="@string/title_activity_band_offers"
+            android:theme="@style/MyMaterialTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

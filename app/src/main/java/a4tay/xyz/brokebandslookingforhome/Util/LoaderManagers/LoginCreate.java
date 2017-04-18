@@ -16,7 +16,7 @@ import a4tay.xyz.brokebandslookingforhome.TabActivity;
 import a4tay.xyz.brokebandslookingforhome.Util.BCrypt;
 import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
 
-import static a4tay.xyz.brokebandslookingforhome.EventList.loggedIn;
+import static a4tay.xyz.brokebandslookingforhome.TabActivity.loggedIn;
 
 /**
  * Created by johnkonderla on 3/21/17.
