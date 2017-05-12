@@ -34,7 +34,7 @@ public class TabActivity extends AppCompatActivity implements OnDataSendToActivi
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private static final String LOG_TAG = TabActivity.class.getSimpleName();
-    public static String baseURL = "http://192.168.1.89:8080/Harbor/api/";
+    public static String baseURL = "http://dev.4tay.xyz:8080/Harbor/api/";
     public static boolean loggedIn = false;
     public static int inBand = -1;
     private static final String MY_PREFS = "harbor-preferences";
