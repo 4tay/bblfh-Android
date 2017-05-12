@@ -34,7 +34,7 @@ public class TabActivity extends AppCompatActivity implements OnDataSendToActivi
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private static final String LOG_TAG = TabActivity.class.getSimpleName();
-    public static String baseURL = "http://192.168.1.66:8080/Harbor/api/";
+    public static String baseURL = "http://192.168.1.89:8080/Harbor/api/";
     public static boolean loggedIn = false;
     public static int inBand = -1;
     private static final String MY_PREFS = "harbor-preferences";
@@ -77,6 +77,8 @@ public class TabActivity extends AppCompatActivity implements OnDataSendToActivi
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(BAND_KEY,"");
 
+            editor.apply();
+
             Log.d(LOG_TAG,loginUrl);
             new LoginStatus(TabActivity.this, "EventList").execute(new String[]{loginUrl});
 
@@ -104,14 +106,15 @@ public class TabActivity extends AppCompatActivity implements OnDataSendToActivi
                                 startActivity(intent);
                                 break;
                             case R.id.it_bottom_nav_two:
+
+                                break;
+                            case R.id.it_bottom_nav_three:
                                 if(inBand > 0) {
                                     intent.setClass(getApplicationContext(),BandTabs.class);
                                 } else {
                                     intent.setClass(getApplicationContext(), HomeTabs.class);
                                 }
                                 startActivity(intent);
-                                break;
-                            case R.id.it_bottom_nav_three:
 
                                 break;
                         }

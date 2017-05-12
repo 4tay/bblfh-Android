@@ -1,44 +1,30 @@
 package a4tay.xyz.brokebandslookingforhome;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import a4tay.xyz.brokebandslookingforhome.Util.Band;
 import a4tay.xyz.brokebandslookingforhome.Util.Event;
 import a4tay.xyz.brokebandslookingforhome.Util.Home;
-import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.DetailLoader;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.GetterAsyncLoader;
 import a4tay.xyz.brokebandslookingforhome.Util.LoaderManagers.LoginStatus;
 import a4tay.xyz.brokebandslookingforhome.Util.OnDataSendToActivity;
 import a4tay.xyz.brokebandslookingforhome.Util.QueryUtils;
-
-//import static a4tay.xyz.brokebandslookingforhome.EventList.activity;
-import static a4tay.xyz.brokebandslookingforhome.EventList.activity;
 import static a4tay.xyz.brokebandslookingforhome.TabActivity.loggedIn;
 import static a4tay.xyz.brokebandslookingforhome.TabActivity.baseURL;
 
@@ -91,6 +77,7 @@ public class ShowDetail extends AppCompatActivity implements OnDataSendToActivit
                 bundled.putInt("memberCount",bands.get(bandSpinner.getSelectedItemPosition()).getMemberCount());
                 bundled.putInt("bandID", bands.get(bandSpinner.getSelectedItemPosition()).getId());
                 bundled.putInt("showID", events.get(0).getEventID());
+                bundled.putInt("fragType",1);
                 ArrayList<String> homeNames = new ArrayList<String>();
                 ArrayList<Integer> homeIDs = new ArrayList<Integer>();
                 for(Home home: homeList) {

@@ -15,11 +15,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import a4tay.xyz.brokebandslookingforhome.Util.OnDataSendToActivity;
 
 import static a4tay.xyz.brokebandslookingforhome.TabActivity.inBand;
 
@@ -33,6 +36,7 @@ public class BandTabs extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
+    private BandOffers bandOffers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +59,6 @@ public class BandTabs extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        if(inBand > 0) {
-            bottomNavigationView.getMenu().getItem(2).setTitle("Band");
-        }
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -87,14 +88,17 @@ public class BandTabs extends AppCompatActivity {
                         return false;
                     }
                 });
+        if(inBand > 0) {
+            bottomNavigationView.getMenu().getItem(2).setTitle("Band");
+        }
 
-
+        bandOffers = new BandOffers();
 
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeList(), "Home List");
-        adapter.addFragment(new AddHome(), "Add Home");
+        adapter.addFragment(new BandOffers(), "Offers");
+        //adapter.addFragment(new AddHome(), "Add Home");
         viewPager.setAdapter(adapter);
     }
 
@@ -150,4 +154,5 @@ public class BandTabs extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

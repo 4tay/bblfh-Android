@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class OfferFrag extends DialogFragment{
     private TextView memberCount;
     private TextView perkOffer;
     private TextView acceptOffer;
+    private LinearLayout homeNameWrap;
     private String offer;
     private int members;
     private int bandID;
@@ -62,7 +64,7 @@ public class OfferFrag extends DialogFragment{
     private ArrayList<String> homeNameList;
     private ArrayList<Integer> homeIDs;
     private String url = baseURL + "show/offerHome";
-    JSONObject userInfo;
+    private int fragType = 1;
     private final static String LOG_TAG = OfferFrag.class.getSimpleName();
     @Override
     public void onCreate(Bundle savedInstanceStates) {
@@ -75,6 +77,7 @@ public class OfferFrag extends DialogFragment{
         bandID = getArguments().getInt("bandID");
         showID = getArguments().getInt("showID");
         members = getArguments().getInt("memberCount");
+        fragType = getArguments().getInt("fragType");
 
         SharedPreferences prefs = getContext().getSharedPreferences(MY_PREFS, MODE_PRIVATE);
 
@@ -107,14 +110,24 @@ public class OfferFrag extends DialogFragment{
                 dismiss();
             }
         });
-
-
+        homeNameWrap = (LinearLayout) root.findViewById(R.id.ll_offer_name_wrap);
         homeSpinner = (Spinner) root.findViewById(R.id.sp_offer_home_select);
 
-        ArrayAdapter<String> homeAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.spinner_style,
-                homeNameList);
-        homeSpinner.setAdapter(homeAdapter);
+
+        if (fragType == 1) {
+
+            homeNameWrap.setVisibility(View.INVISIBLE);
+            homeNameWrap.setVisibility(View.GONE);
+
+
+            ArrayAdapter<String> homeAdapter = new ArrayAdapter<>(getContext(),
+                    R.layout.spinner_style,
+                    homeNameList);
+            homeSpinner.setAdapter(homeAdapter);
+        } else {
+            homeSpinner.setVisibility(View.INVISIBLE);
+            homeSpinner.setVisibility(View.GONE);
+        }
 
         memberCount = (TextView) root.findViewById(R.id.tv_offer_member_count);
 
